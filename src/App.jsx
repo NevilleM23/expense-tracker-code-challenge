@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import ExpenseForm from './components/ExpenseForm';
+import ExpenseTable from './components/ExpenseTable';
+import SearchBar from './components/Searchbar';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [expenses, setExpenses] = useState([
+    {
+      id: 1,
+      name: 'Weekly groceries',
+      description: 'Food shopping',
+      category: 'Food',
+      amount: 90.00,
+      date: '2023-05-15'
+    },
+    {
+      id: 2,
+      name: 'Car fuel',
+      description: 'Gas station refill',
+      category: 'Transportation',
+      amount: 40.00,
+      date: '2023-05-10'
+    }
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const addExpense = (newExpense) => {
+    setExpenses([...expenses, { 
+      ...newExpense, 
+      id: Date.now(),
+      amount: parseFloat(newExpense.amount),
+      date: newExpense.date
+    }]);
+  };
+
+  const filteredExpenses = expenses.filter(expense => 
+    expense.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    expense.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-800 mb-8">Expense Tracker</h1>
+        
+        <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+        <ExpenseForm onAddExpense={addExpense} />
+        <ExpenseTable expenses={filteredExpenses} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
