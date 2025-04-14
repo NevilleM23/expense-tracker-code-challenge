@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function ExpenseForm({ onAddExpense }) {
+const ExpenseForm = ({ onAddExpense }) => {
   const [formData, setFormData] = useState({
     name: '',
     amount: '',
@@ -11,19 +11,22 @@ function ExpenseForm({ onAddExpense }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.amount || !formData.date) return;
-    
+
     const newExpense = {
       ...formData,
       amount: parseFloat(formData.amount),
       date: new Date(formData.date).toISOString().split('T')[0]
     };
-    
+
     onAddExpense(newExpense);
     setFormData({
       name: '',
@@ -35,25 +38,35 @@ function ExpenseForm({ onAddExpense }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow mb-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Expense Name</label>
+    <form onSubmit={handleSubmit} className="h-full flex flex-col">
+      <div className="space-y-4 flex-1">
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Expense Name
+          </label>
           <input
             type="text"
+            name="name"
             value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
+            onChange={handleChange}
+            className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg bg-white text-gray-900
+                     focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            placeholder="Enter name"
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Category</label>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Category
+          </label>
           <select
+            name="category"
             value={formData.category}
-            onChange={(e) => setFormData({...formData, category: e.target.value})}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            onChange={handleChange}
+            className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg bg-white text-gray-900
+                     focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
           >
             <option value="Food">Food</option>
             <option value="Transportation">Transportation</option>
@@ -62,38 +75,46 @@ function ExpenseForm({ onAddExpense }) {
           </select>
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Amount</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Amount ($)
+          </label>
           <input
             type="number"
+            name="amount"
             step="0.01"
+            min="0"
             value={formData.amount}
-            onChange={(e) => setFormData({...formData, amount: e.target.value})}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
+            onChange={handleChange}
+            className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg bg-white text-gray-900
+                     focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            placeholder="0.00"
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Date</label>
+  
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Date
+          </label>
           <input
             type="date"
+            name="date"
             value={formData.date}
-            onChange={(e) => setFormData({...formData, date: e.target.value})}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
+            onChange={handleChange}
+            className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg bg-white text-gray-900
+                     focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
           />
         </div>
       </div>
 
-      <div className="mt-4">
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
-        >
-          Add Expense
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="mt-6 w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                 transition-colors font-medium"
+      >
+        Add Expense
+      </button>
     </form>
   );
 };

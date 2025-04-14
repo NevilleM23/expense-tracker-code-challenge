@@ -40,16 +40,43 @@ function App() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Expense Tracker</h1>
-        
-        <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-        <ExpenseForm onAddExpense={addExpense} />
-        <ExpenseTable expenses={filteredExpenses} />
-      </div>
-    </div>
-  );
-}
+    <div className="min-h-screen bg-gray-50 p-4">
+        <div className="w-full flex-1 flex flex-col"> 
+            <header className="mb-6 text-center">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">Expense Tracker</h1>
+              <div className="mt-3 p-2 bg-white rounded-lg shadow-sm border border-gray-200 inline-block">
+                <span className="font-medium text-gray-700">Total Expenses: </span>
+                <span className="font-bold text-gray-900">
+                  {expenses.reduce((sum, expense) => sum + expense.amount, 0)}
+                </span>
+              </div>
+            </header>
+
+            <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-[calc(100vh-12rem)]">
+              <div className="lg:w-96 h-full bg-white p-5 rounded-lg shadow-md border border-gray-200">
+                <h2 className="text-lg font-semibold mb-3 text-gray-800">Add Expense</h2>
+                <ExpenseForm onAddExpense={addExpense} />
+              </div>
+
+              <div className="flex-1 flex flex-col">
+                <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 mb-4">
+                  <SearchBar 
+                    searchTerm={searchTerm} 
+                    onSearchChange={setSearchTerm} 
+                  />
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <ExpenseTable expenses={filteredExpenses} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
 
 export default App;
