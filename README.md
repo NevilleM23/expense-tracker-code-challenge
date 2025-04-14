@@ -2,7 +2,6 @@
 
 A simple yet powerful React application to track your expenses with filtering capabilities.
 
-![Expense Tracker Preview](./public/screenshot.png)
 
 ##  Features
 - Add new expenses with name, amount, date, category, and description
