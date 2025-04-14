@@ -15,8 +15,8 @@ const ExpenseTable = ({ expenses }) => {
       <tbody>
         {expenses.map((expense) => (
           <tr key={expense.id}>
-            <td>{expense.expenseName}</td>
-            <td>{expense.description}</td>
+            <td>{expense.Name}</td>
+            <td>{expense.description|| 'N/A'}</td>
             <td>{expense.category}</td>
             <td>${expense.amount.toFixed(2)}</td>
             <td>{expense.date}</td>
