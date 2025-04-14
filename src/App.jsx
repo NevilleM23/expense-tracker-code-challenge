@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseTable from './components/ExpenseTable';
 import SearchBar from './components/Searchbar';
+import './App.css'
 
 function App() {
   const [expenses, setExpenses] = useState([
@@ -40,8 +41,8 @@ function App() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-        <div className="w-full flex-1 flex flex-col"> 
+    <div className="min-h-screen bg-gray-50 p-0">
+        <div className="w-full h-full mx-0 px-4"> 
             <header className="mb-6 text-center">
               <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">Expense Tracker</h1>
               <div className="mt-3 p-2 bg-white rounded-lg shadow-sm border border-gray-200 inline-block">
@@ -52,13 +53,13 @@ function App() {
               </div>
             </header>
 
-            <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-[calc(100vh-12rem)]">
+            <div className="flex flex-col lg:flex-row gap-6 flex-1">
               <div className="lg:w-96 h-full bg-white p-5 rounded-lg shadow-md border border-gray-200">
                 <h2 className="text-lg font-semibold mb-3 text-gray-800">Add Expense</h2>
                 <ExpenseForm onAddExpense={addExpense} />
               </div>
 
-              <div className="flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col min-h-0">
                 <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 mb-4">
                   <SearchBar 
                     searchTerm={searchTerm} 
@@ -66,10 +67,8 @@ function App() {
                   />
                 </div>
 
-                <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-                  <div className="overflow-x-auto">
+                <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden flex-1 min-h-0">
                     <ExpenseTable expenses={filteredExpenses} />
-                  </div>
                 </div>
               </div>
             </div>
